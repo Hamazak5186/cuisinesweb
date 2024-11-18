@@ -1,0 +1,114 @@
+import shutil
+
+# Paths to the image files generated earlier
+generated_images = {
+    "A_high-quality_image_of_a_classic_Margherita_pizza.png": "/mnt/data/A_high-quality_image_of_a_classic_Margherita_pizza.png",
+    "A_realistic_image_of_spaghetti_carbonara_served_on.png": "/mnt/data/A_realistic_image_of_spaghetti_carbonara_served_on.png",
+    "A_delicious_serving_of_Indian_butter_chicken_in_a_.png": "/mnt/data/A_delicious_serving_of_Indian_butter_chicken_in_a_.png"
+}
+
+# Define base directory for packaging
+base_dir = "/mnt/data/CuisinesWebsite"
+images_dir = os.path.join(base_dir, "images")
+os.makedirs(images_dir, exist_ok=True)
+
+# Copy the generated images to the "images" folder
+for filename, source_path in generated_images.items():
+    shutil.copy(source_path, os.path.join(images_dir, filename))
+
+# Save updated HTML content to files
+updated_html_files = {
+    "index.html": """
+    <html>
+    <head>
+        <title>Welcome to World Cuisines</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <h1>Welcome to the World of Cuisines</h1>
+        <p>Explore the flavors of the world through our curated collection of cuisines. Choose your favorite cuisine below:</p>
+        <ul>
+            <li><a href="italian.html">Italian Cuisine</a></li>
+            <li><a href="indian.html">Indian Cuisine</a></li>
+            <li><a href="chinese.html">Chinese Cuisine</a></li>
+            <li><a href="mexican.html">Mexican Cuisine</a></li>
+        </ul>
+    </body>
+    </html>
+    """,
+    "italian.html": """
+    <html>
+    <head>
+        <title>Italian Cuisine</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <h1>Italian Cuisine</h1>
+        <p>Italian cuisine is famous for its simplicity, relying on high-quality ingredients to create flavorful dishes.</p>
+        <h2>Famous Dishes</h2>
+        <ul>
+            <li>Pizza Margherita</li>
+            <li>Spaghetti Carbonara</li>
+        </ul>
+        <img src="images/A_high-quality_image_of_a_classic_Margherita_pizza.png" alt="Pizza Margherita">
+        <img src="images/A_realistic_image_of_spaghetti_carbonara_served_on.png" alt="Spaghetti Carbonara">
+    </body>
+    </html>
+    """,
+    "indian.html": """
+    <html>
+    <head>
+        <title>Indian Cuisine</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <h1>Indian Cuisine</h1>
+        <p>Indian cuisine is rich in spices and flavors, offering a variety of regional dishes.</p>
+        <h2>Popular Dishes</h2>
+        <ul>
+            <li>Butter Chicken</li>
+        </ul>
+        <img src="images/A_delicious_serving_of_Indian_butter_chicken_in_a_.png" alt="Butter Chicken">
+    </body>
+    </html>
+    """,
+    "styles.css": """
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+    }
+    h1 {
+        color: #333;
+    }
+    ul {
+        list-style-type: none;
+    }
+    li {
+        margin: 5px 0;
+    }
+    a {
+        text-decoration: none;
+        color: #007BFF;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    img {
+        width: 300px;
+        height: auto;
+        margin: 10px;
+    }
+    """
+}
+
+# Save HTML and CSS files
+for filename, content in updated_html_files.items():
+    with open(os.path.join(base_dir, filename), "w") as file:
+        file.write(content)
+
+# Package everything into a ZIP file
+zip_path = "/mnt/data/CuisinesWebsite_GitHubReady.zip"
+shutil.make_archive(base_dir, 'zip', base_dir)
+
+zip_path
